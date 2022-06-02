@@ -1,5 +1,12 @@
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.*;
+import java.util.Scanner;
 
 public class PasswordPanel extends javax.swing.JFrame {
 
@@ -11,7 +18,6 @@ public class PasswordPanel extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        LogOut = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -21,30 +27,32 @@ public class PasswordPanel extends javax.swing.JFrame {
         APP = new javax.swing.JTextField();
         Komentaras = new javax.swing.JTextField();
         Gen = new javax.swing.JButton();
-        ADD = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         LookName = new javax.swing.JTextField();
+        Look = new javax.swing.JButton();
         Keist = new javax.swing.JButton();
-        Del = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        DEL = new javax.swing.JButton();
+        LogOut = new javax.swing.JButton();
+        ADD = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        Show = new javax.swing.JButton();
+        Copy = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
                 },
                 new String [] {
-                        "Pavadinimas", "Slaptažodis", "URL/Aplikacija", "Komentaras"
+                        "Title 1", "Title 2", "Title 3", "Title 4"
                 }
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        LogOut.setText("Atsijungit");
-        LogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LogOutActionPerformed(evt);
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Pavadinimas");
 
@@ -54,6 +62,8 @@ public class PasswordPanel extends javax.swing.JFrame {
 
         jLabel4.setText("Komentaras");
 
+
+
         Gen.setText("Generuoti Slaptažodį");
         Gen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,14 +71,16 @@ public class PasswordPanel extends javax.swing.JFrame {
             }
         });
 
-        ADD.setText("Įsaugoti");
-        ADD.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setText("paieška pagal pavadinimą");
+
+
+
+        Look.setText("Ieškoti");
+        Look.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ADDActionPerformed(evt);
+                LookActionPerformed(evt);
             }
         });
-
-        jLabel5.setText("Paiška pagal pavadinimą");
 
         Keist.setText("Keisti pasirinktą slaptažodį");
         Keist.addActionListener(new java.awt.event.ActionListener() {
@@ -81,93 +93,154 @@ public class PasswordPanel extends javax.swing.JFrame {
             }
         });
 
-        Del.setText("Pašalinti pasirinktą slaptažodį");
-        Del.addActionListener(new java.awt.event.ActionListener() {
+        DEL.setText("Pašalinti pasirinktą slaptažodį");
+        DEL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DelActionPerformed(evt);
+                try {
+                    DELActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
+
+        LogOut.setText("Atsijungti");
+        LogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogOutActionPerformed(evt);
+            }
+        });
+
+        ADD.setText("Išsaugoti");
+        ADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ADDActionPerformed(evt);
+            }
+        });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                new String [] {
+                        "Pavadinimas", "Slaptažodis", "URL/Aplikacija", "Komentaras"
+                }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        Show.setText("Rodyti Slapyvardį");
+        Show.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowActionPerformed(evt);
+            }
+        });
+
+        Copy.setText("Kopijuoti slapyvardį");
+        Copy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CopyActionPerformed(evt);
+            }
+        });
+
+
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(Pavadinimas, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(51, 51, 51))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(91, 91, 91)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel5)
-                                                        .addComponent(LookName, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(Slapt, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(44, 44, 44)
-                                                        .addComponent(APP, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(43, 43, 43)
-                                                        .addComponent(Komentaras, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(63, 63, 63)
-                                                        .addComponent(ADD))
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(22, 22, 22)
-                                                .addComponent(Keist)
-                                                .addGap(45, 45, 45)
-                                                .addComponent(Del)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(LogOut)))
-                                .addGap(47, 47, 47))
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(101, 101, 101)
-                                                .addComponent(jLabel1)
-                                                .addGap(99, 99, 99)
-                                                .addComponent(jLabel2)
-                                                .addGap(86, 86, 86)
-                                                .addComponent(jLabel3)
-                                                .addGap(91, 91, 91)
-                                                .addComponent(jLabel4))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(224, 224, 224)
-                                                .addComponent(Gen)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(102, 102, 102)
+                                                                .addComponent(jLabel1)
+                                                                .addGap(114, 114, 114)
+                                                                .addComponent(jLabel2)
+                                                                .addGap(126, 126, 126)
+                                                                .addComponent(jLabel3)
+                                                                .addGap(114, 114, 114)
+                                                                .addComponent(jLabel4))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(87, 87, 87)
+                                                                .addComponent(Pavadinimas, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(89, 89, 89)
+                                                                .addComponent(Slapt, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(97, 97, 97)
+                                                                .addComponent(APP, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(85, 85, 85)
+                                                                .addComponent(Komentaras, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGap(100, 100, 100)
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                        .addComponent(LookName)))
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGap(123, 123, 123)
+                                                                                .addComponent(Look)))
+                                                                .addGap(57, 57, 57)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(Keist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(Show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                .addGap(38, 38, 38)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(DEL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(Copy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(239, 239, 239)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(Gen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(ADD)
+                                                        .addComponent(LogOut)))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
+                                .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
                                         .addComponent(jLabel3)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
+                                        .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(Pavadinimas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(Slapt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(APP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(Komentaras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(ADD))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(Gen)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(21, 21, 21)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(17, 17, 17)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(LogOut)
                                         .addComponent(LookName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(Keist)
-                                        .addComponent(Del))
-                                .addGap(35, 35, 35))
+                                        .addComponent(DEL))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(Look)
+                                                        .addComponent(Show)
+                                                        .addComponent(Copy))
+                                                .addGap(47, 47, 47))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(LogOut)
+                                                .addGap(32, 32, 32))))
         );
         Login ll  = new Login();
         System.out.println(ll.getVardas());
@@ -185,7 +258,7 @@ public class PasswordPanel extends javax.swing.JFrame {
 
     private void ADDActionPerformed(java.awt.event.ActionEvent evt) {
         Login ll  = new Login();
-        ToCsv.ToTxtPersonal(ll.getVardas(),Pavadinimas.getText(), Slapt.getText(), APP.getText(), Komentaras.getText() );
+        ToCsv.ToTxtPersonal(ll.getVardas(),Pavadinimas.getText(), AES.encrypt(Slapt.getText()), APP.getText(), Komentaras.getText() );
         Atnaujinti();
     }
 
@@ -195,22 +268,54 @@ public class PasswordPanel extends javax.swing.JFrame {
        Slapt.setText(pas);
     }
 
-    private void DelActionPerformed(java.awt.event.ActionEvent evt) {
-        Login ll = new Login();
+    private void DELActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
+        ToCsv.DeleteTxt(Login.getVardas(), LookName.getText());
         Atnaujinti();
     }
+    private void LookActionPerformed(java.awt.event.ActionEvent evt) {
+        if (LookName.getText().equals("")) Atnaujinti();
+        else {
+            int t = 0;
+            String temp = "";
+            Scanner input = null;
+            try {
+                input = new Scanner(new File(Login.getVardas() + ".txt"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
+            while (input.hasNext()) {
+                String line = input.nextLine();
+
+                if (line.contains(LookName.getText())) {
+                    temp = line;
+                    t = 1;
+                    break;
+                }
+            }
+            if (t == 1) {
+                String s1 = temp;
+                DefaultTableModel tb1Model = (DefaultTableModel) this.jTable2.getModel();
+                tb1Model.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                String[] dataRow = s1.split(" ");
+                model.addRow(dataRow);
+            } else JOptionPane.showMessageDialog(null, "Slapyvardis tokiu pavadinimu nerastas");
+        }
+    }
     private void KeistActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
+        ToCsv.ChangeTxt(Login.getVardas(), AES.encrypt(Slapt.getText()), LookName.getText());
+        Atnaujinti();
     }
 
     private void Atnaujinti()
     {
         Login ll = new Login();
-        DefaultTableModel tb2Model = (DefaultTableModel)this.jTable1.getModel();
-        tb2Model.setRowCount(0);
+        DefaultTableModel tb1Model = (DefaultTableModel)this.jTable2.getModel();
+        tb1Model.setRowCount(0);
         try {
             BufferedReader br = new BufferedReader(new FileReader(ll.getVardas() + ".txt"));
-            DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+            DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
 
             Object[] tableLines = br.lines().toArray();
             for(int i = 0; i < tableLines.length; i++)
@@ -228,15 +333,80 @@ public class PasswordPanel extends javax.swing.JFrame {
     }
 
 
+    private void ShowActionPerformed(java.awt.event.ActionEvent evt) {
+        if (LookName.getText().equals("")) Atnaujinti();
+        else {
+            int t = 0;
+            String temp = "";
+            Scanner input = null;
+            try {
+                input = new Scanner(new File(Login.getVardas() + ".txt"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            while (input.hasNext()) {
+                String line = input.nextLine();
+
+                if (line.contains(LookName.getText())) {
+                    temp = line;
+                    t = 1;
+                    break;
+                }
+            }
+            if (t == 1) {
+                String s1 = temp;
+                DefaultTableModel tb1Model = (DefaultTableModel) this.jTable2.getModel();
+                tb1Model.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                String[] dataRow = s1.split(" ");
+                dataRow[1] = AES.decrypt(dataRow[1]);
+                model.addRow(dataRow);
+            }
+        }
+    }
+
+    private void CopyActionPerformed(java.awt.event.ActionEvent evt) {
+
+        if (LookName.getText().equals("")) Atnaujinti();
+        else {
+            int t = 0;
+            String temp = "";
+            Scanner input = null;
+            try {
+                input = new Scanner(new File(Login.getVardas() + ".txt"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            while (input.hasNext()) {
+                String line = input.nextLine();
+
+                if (line.contains(LookName.getText())) {
+                    String[] sl = line.split(" ");
+                    StringSelection selection = new StringSelection(AES.decrypt(sl[1]));
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(selection, selection);
+                    break;
+                }
+            }
+        }
+
+    }
+
+
     private javax.swing.JButton ADD;
     private javax.swing.JTextField APP;
-    private javax.swing.JButton Del;
+    private javax.swing.JButton Copy;
+    private javax.swing.JButton DEL;
     private javax.swing.JButton Gen;
     private javax.swing.JButton Keist;
     private javax.swing.JTextField Komentaras;
     private javax.swing.JButton LogOut;
+    private javax.swing.JButton Look;
     private javax.swing.JTextField LookName;
     private javax.swing.JTextField Pavadinimas;
+    private javax.swing.JButton Show;
     private javax.swing.JTextField Slapt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -244,6 +414,8 @@ public class PasswordPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
 
 }

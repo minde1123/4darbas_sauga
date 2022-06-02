@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 
 public class Login extends javax.swing.JFrame {
 
@@ -123,19 +125,17 @@ public class Login extends javax.swing.JFrame {
         if (t == 1) {
             String s1 = temp;
             String[] ss = s1.split(" ");
-            String pas = AES.decrypt(ss[1]);
-            if (Password.getText().equals(pas))
-            {
+            if (BCrypt.checkpw(Password.getText(), ss[1])) {
+                System.out.println("It matches");
                 setVardas(Username.getText());
                 new PasswordPanel().setVisible(true);
                 this.setVisible(false);
-
             }
-            else JOptionPane.showMessageDialog(null, "Neteisingas slapyvardis");
-            System.out.println(Password.getText());
+            else
+                JOptionPane.showMessageDialog(null, "Neteisingas slapyvardis");
         }
         else {
-            ToCsv.ToCsvE("ACC", Username.getText(), AES.encrypt(Password.getText()));
+            ToCsv.ToCsvE("ACC", Username.getText(), BCrypt.hashpw(Password.getText(), BCrypt.gensalt()));
             setVardas(Username.getText());
             File file = new File(Username.getText() + ".txt");
             try {

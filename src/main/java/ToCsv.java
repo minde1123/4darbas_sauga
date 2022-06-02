@@ -1,3 +1,4 @@
+        import javax.swing.*;
         import java.io.*;
         import java.nio.file.Files;
         import java.nio.file.Path;
@@ -38,6 +39,54 @@
                 } catch (Exception e) {
                 }
             }
+            public static void DeleteTxt(String Filename, String DeleteLine) throws IOException {
+                File inputFile = new File(Filename+".txt");
+                File tempFile = new File("myTempFile.txt");
+
+                BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+                String lineToRemove = DeleteLine;
+                String currentLine;
+
+                while((currentLine = reader.readLine()) != null) {
+                    String trimmedLine = currentLine.trim();
+                    System.out.println(trimmedLine);
+                    String Split[] = trimmedLine.split(" ");
+                    if(Split[0].contains(lineToRemove)) continue;
+                    writer.write(currentLine + System.getProperty("line.separator"));
+                }
+                writer.close();
+                reader.close();
+
+                renameFiles(tempFile, inputFile);
+            }
+            public static void ChangeTxt(String Filename, String newPass, String LookFor) throws IOException {
+                File inputFile = new File(Filename+".txt");
+                File tempFile = new File("myTempFile.txt");
+
+                BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+                String lineToRemove = LookFor;
+                String currentLine;
+
+                while((currentLine = reader.readLine()) != null) {
+                    String trimmedLine = currentLine.trim();
+                    System.out.println(trimmedLine);
+                    String Split[] = trimmedLine.split(" ");
+                    if(Split[0].contains(lineToRemove))
+                    {
+                        Split[1] = newPass;
+                        writer.write(String.join(" ",Split));
+                    }
+                    writer.write(currentLine + System.getProperty("line.separator"));
+                }
+                writer.close();
+                reader.close();
+
+                renameFiles(tempFile, inputFile);
+            }
     public static void ToCsvN(String FileName, String Name, String Pass) {
 
         try {
@@ -51,6 +100,33 @@
         } catch (Exception e) {
         }
     }
+    public static void renameFiles(File oldName, File newName)
+            {
+                String sCurrentLine = "";
+                try
+                {
+                    BufferedReader br = new BufferedReader(new FileReader(oldName));
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(newName));
+                    while ((sCurrentLine = br.readLine()) != null)
+                    {
+                        bw.write(sCurrentLine);
+                        bw.newLine();
+                    }
+                    br.close();
+                    bw.close();
+                    File org = oldName;
+                    org.delete();
+                }
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
 
     public static boolean Exist(String Filename) {
         File f = new File(Filename + ".txt");
